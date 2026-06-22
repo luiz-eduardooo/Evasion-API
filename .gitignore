@@ -1,0 +1,37 @@
+# Dados do INEP (público e pesado — fora do versionamento)
+/dados/
+
+# Build - Maven
+target/
+
+# Build - Gradle
+.gradle/
+build/
+
+# Java
+*.class
+hs_err_pid*
+replay_pid*
+*.log
+
+# Spring - arquivos com segredos (senha do banco etc.)
+application-local.properties
+application-secret.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
