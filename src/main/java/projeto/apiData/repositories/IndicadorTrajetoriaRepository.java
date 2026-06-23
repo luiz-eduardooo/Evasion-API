@@ -10,7 +10,7 @@ public interface IndicadorTrajetoriaRepository
         extends JpaRepository<IndicadorTrajetoria, Long> {
 
     @Query("""
-        SELECT new projeto.apiData.dto.EvasaoAgregada(
+        SELECT new projeto.apiData.services.EvasaoAgregada(
             SUM(i.qtDesistencia),
             SUM(i.qtIngressante)
         )
