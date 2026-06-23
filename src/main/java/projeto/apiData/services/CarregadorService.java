@@ -1,17 +1,20 @@
 package projeto.apiData.services;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import projeto.apiData.entities.IndicadorTrajetoria;
 import projeto.apiData.repositories.IndicadorTrajetoriaRepository;
 
-import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +25,21 @@ public class CarregadorService {
     public void carregar(String caminhoArquivo) throws Exception {
         List<IndicadorTrajetoria> lote = new ArrayList<>();
 
-        try (BufferedReader reader = Files.newBufferedReader(
-                Path.of(caminhoArquivo), StandardCharsets.ISO_8859_1)) {
+        try (CSVReader reader = new CSVReaderBuilder(
+                Files.newBufferedReader(Path.of(caminhoArquivo), StandardCharsets.UTF_8))
+                .withSkipLines(9)
+                .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                .build()) {
 
-            reader.readLine();
-            reader.readLine();
-            reader.readLine();
-
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                if (linha.isBlank()) continue;
-
-                String[] campos = linha.split("\t", -1);
+            String[] campos;
+            int contador = 0;
+            while ((campos = reader.readNext()) != null) {
+                if (contador < 3) {   // espia só as 3 primeiras linhas de dado
+                    System.out.println("Colunas: " + campos.length + " | col[0]=[" + campos[0] + "]");
+                    contador++;
+                }
+                if (campos.length < 29) continue;
+                if (!campos[0].matches("\\d+")) continue;
 
                 IndicadorTrajetoria ind = new IndicadorTrajetoria();
 
@@ -78,8 +84,9 @@ public class CarregadorService {
         if (valor == null || valor.isBlank()) return null;
         return Long.valueOf(valor.trim());
     }
+
     private Double parseDouble(String valor) {
         if (valor == null || valor.isBlank()) return null;
-        return Double.valueOf(valor.trim().replace(",", "."));
+        return Double.valueOf(valor.trim().replace(",", "."));   // "97,0" -> "97.0"
     }
 }

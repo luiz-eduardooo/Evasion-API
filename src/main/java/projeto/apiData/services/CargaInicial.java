@@ -14,14 +14,13 @@ public class CargaInicial implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         if (repository.count() > 0) {
             System.out.println(">> Banco já populado, pulando carga.");
             return;
         }
 
         System.out.println(">> Iniciando carga do INEP...");
-        carregadorService.carregar("dados/trajetoria.csv");
+        carregadorService.carregar("dados/trajetorias.csv");
         System.out.println(">> Carga concluída! Linhas no banco: " + repository.count());
     }
 }
