@@ -57,7 +57,7 @@ public class CarregadorService {
 
                 ind.setNuAnoIngresso(parseInt(campos[15]));
                 ind.setNuAnoReferencia(parseInt(campos[16]));
-
+                ind.setNuAnoMaximoAcompanhamento(parseInt(campos[20]));
                 ind.setQtIngressante(parseInt(campos[21]));
                 ind.setQtPermanencia(parseInt(campos[22]));
                 ind.setQtConcluinte(parseInt(campos[23]));

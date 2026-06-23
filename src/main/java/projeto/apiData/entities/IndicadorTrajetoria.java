@@ -33,6 +33,7 @@ public class IndicadorTrajetoria {
 
     private Integer nuAnoIngresso;
     private Integer nuAnoReferencia;
+    private Integer nuAnoMaximoAcompanhamento;
 
     private Integer qtIngressante;
     private Integer qtPermanencia;
